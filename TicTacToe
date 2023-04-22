@@ -1,0 +1,96 @@
+import java.util.Scanner;
+
+	public class TicTacToe {
+	    private static char[][] board;
+	    private static char currentPlayerMark;
+
+	    public static void main(String[] args) {
+	        board = new char[3][3];
+	        currentPlayerMark = 'X';
+	        initializeBoard();
+	        printBoard();
+
+	        while (!checkForWin() && !checkForTie()) {
+	            System.out.println("It's " + currentPlayerMark + "'s turn. Enter row and column (1-3):");
+	            Scanner scanner = new Scanner(System.in);
+	            int row = scanner.nextInt() - 1;
+	            int col = scanner.nextInt() - 1;
+
+	            if (row >= 0 && row < 3 && col >= 0 && col < 3 && board[row][col] == '\u0000') {
+	                board[row][col] = currentPlayerMark;
+	                printBoard();
+	                if (checkForWin()) {
+	                    System.out.println(currentPlayerMark + " wins!");
+	                } else if (checkForTie()) {
+	                    System.out.println("It's a tie!");
+	                } else {
+	                    changePlayer();
+	                }
+	            } else {
+	                System.out.println("Invalid move. Try again.");
+	            }
+	        }
+	    }
+
+	    private static void initializeBoard() {
+	        for (int row = 0; row < 3; row++) {
+	            for (int col = 0; col < 3; col++) {
+	                board[row][col] = '\u0000';
+	            }
+	        }
+	    }
+
+	    private static void printBoard() {
+	        System.out.println("-------------");
+	        for (int row = 0; row < 3; row++) {
+	            System.out.print("| ");
+	            for (int col = 0; col < 3; col++) {
+	                System.out.print(board[row][col] + " | ");
+	            }
+	            System.out.println();
+	            System.out.println("-------------");
+	        }
+	    }
+
+	    private static void changePlayer() {
+	        if (currentPlayerMark == 'X') {
+	            currentPlayerMark = 'O';
+	        } else {
+	            currentPlayerMark = 'X';
+	        }
+	    }
+
+	    private static boolean checkForWin() {
+	        // check rows
+	        for (int row = 0; row < 3; row++) {
+	            if (board[row][0] == currentPlayerMark && board[row][1] == currentPlayerMark && board[row][2] == currentPlayerMark) {
+	                return true;
+	            }
+	        }
+	        // check columns
+	        for (int col = 0; col < 3; col++) {
+	            if (board[0][col] == currentPlayerMark && board[1][col] == currentPlayerMark && board[2][col] == currentPlayerMark) {
+	                return true;
+	            }
+	        }
+	        // check diagonals
+	        if (board[0][0] == currentPlayerMark && board[1][1] == currentPlayerMark && board[2][2] == currentPlayerMark) {
+	            return true;
+	        }
+	        if (board[0][2] == currentPlayerMark && board[1][1] == currentPlayerMark && board[2][0] == currentPlayerMark) {
+	            return true;
+	        }
+	        return false;
+	    }
+
+	    private static boolean checkForTie() {
+	        for (int row = 0; row < 3; row++) {
+	            for (int col = 0; col < 3; col++) {
+	                if (board[row][col] == '\u0000') {
+	                    return false;
+	                }
+	            }
+	        }
+	        return true;
+	    }
+	}
